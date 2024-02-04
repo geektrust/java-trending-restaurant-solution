@@ -1,0 +1,7 @@
+clean
+compile
+dist
+init
+test
+test.console.launcher
+test.junit.launcher
