@@ -7,7 +7,7 @@ public class Main {
 
         Restaurant trendingRestaurant = TrendingRestaurantCalculator.identifyTrendingRestaurant(restaurants);
         if (trendingRestaurant != null) {
-            System.out.println(trendingRestaurant.getName());
+            System.out.println("The trending restaurant is: " + trendingRestaurant.getName());
         } else {
             System.out.println("Could not identify the trending restaurant.");
         }
