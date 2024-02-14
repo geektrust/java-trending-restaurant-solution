@@ -43,16 +43,7 @@
     <javac srcdir="${src-test}" destdir="${build-test}" classpathref="test.classpath" includeantruntime="false"/>
   </target>
 
-  <!-- <target name="compile" depends="init"
-    description="compile the source">
-    <javac srcdir="${src}" destdir="${build}" includeantruntime="false" classpathref="src.classpath"/>
-    <javac srcdir="${src-test}" destdir="${build-test}" classpathref="test.classpath"
-      includeantruntime="false" if="tests.exist"/>
-  </target> -->
-
-  <target name="compile" depends="compile-main,compile-tests">
-    <!-- This target now depends on both the main and test compilation targets -->
-  </target>
+  <target name="compile" depends="compile-main,compile-tests" />
 
   <target name="dist" depends="compile"
     description="generate the distribution">
