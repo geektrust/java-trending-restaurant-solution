@@ -22,6 +22,8 @@
     <fileset dir="${lib}" includes="**/*.jar" />
   </path>
 
+  <available file="${src-test}" property="tests.exist" type="dir"/>
+
   <target name="init">
     <!-- Create the time stamp -->
     <tstamp />
@@ -31,12 +33,25 @@
     <mkdir dir="build/test-report" />
   </target>
 
-  <target name="compile" depends="init"
+  <target name="compile-main" depends="init" description="compile the main source">
+    <!-- Compile the main Java code -->
+    <javac srcdir="${src}" destdir="${build}" includeantruntime="false" classpathref="src.classpath"/>
+  </target>
+
+  <target name="compile-tests" if="tests.exist" description="compile the test source">
+    <!-- Compile the test Java code -->
+    <javac srcdir="${src-test}" destdir="${build-test}" classpathref="test.classpath" includeantruntime="false"/>
+  </target>
+
+  <!-- <target name="compile" depends="init"
     description="compile the source">
-    <!-- Compile the Java code from ${src} into ${build} -->
     <javac srcdir="${src}" destdir="${build}" includeantruntime="false" classpathref="src.classpath"/>
     <javac srcdir="${src-test}" destdir="${build-test}" classpathref="test.classpath"
-      includeantruntime="false" />
+      includeantruntime="false" if="tests.exist"/>
+  </target> -->
+
+  <target name="compile" depends="compile-main,compile-tests">
+    <!-- This target now depends on both the main and test compilation targets -->
   </target>
 
   <target name="dist" depends="compile"
@@ -64,7 +79,7 @@
   </target>
 
   <!-- https://junit.org/junit5/docs/snapshot/user-guide/#running-tests-build-ant -->
-  <target name="test.junit.launcher" depends="compile">
+  <target name="test.junit.launcher" depends="compile" if="tests.exist">
     <junitlauncher haltOnFailure="false" printSummary="true">
       <classpath refid="test.classpath" />
       <testclasses outputdir="build/test-report">
@@ -78,7 +93,7 @@
   </target>
 
   <!-- https://junit.org/junit5/docs/current/user-guide/#running-tests-console-launcher -->
-  <target name="test.console.launcher" depends="compile">
+  <target name="test.console.launcher" depends="compile" if="tests.exist">
     <java classpathref="test.classpath" classname="org.junit.platform.console.ConsoleLauncher"
       fork="true" failonerror="true">
       <arg value="--scan-classpath" />
@@ -92,6 +107,6 @@
     </junitreport>
   </target>
 
-  <target name="test" depends="test.junit.launcher, test.console.launcher" />
+  <target name="test" depends="test.junit.launcher, test.console.launcher" if="tests.exist" />
 
 </project>
