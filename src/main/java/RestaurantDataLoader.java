@@ -15,7 +15,7 @@ public class RestaurantDataLoader {
             for (Object key : (JSONArray) o) {
                 j = (JSONObject) key;
                 String name = (String)j.get("name");
-                float averageRating = Float.parseFloat((String)j.get("averageRating"));
+                double averageRating = Double.parseDouble((String)j.get("averageRating"));
                 int totalReviews = Integer.parseInt((String)j.get("totalReviews"));
                 int numberOfReviewsInLast30Days = Integer.parseInt((String)j.get("numberOfReviewsInLast30Days"));
 
